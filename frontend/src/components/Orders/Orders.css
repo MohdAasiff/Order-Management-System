@@ -1,0 +1,74 @@
+/* src/components/Orders/Orders.css */
+.orders-container {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr; /* Makes the table side slightly wider */
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.total-cell {
+  font-weight: 700;
+  color: var(--success-color);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6); /* Dark semi-transparent */
+  backdrop-filter: blur(4px); /* Premium blur effect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--surface-color);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 450px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+
+.modal-header h4 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+}
+
+.modal-body p {
+  margin: 16px 0;
+  display: flex;
+  justify-content: space-between; /* Aligns label left, value right */
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.modal-body strong {
+  color: var(--text-primary);
+}
