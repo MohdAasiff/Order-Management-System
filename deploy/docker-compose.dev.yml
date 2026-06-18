@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # The PostgreSQL Database Service
   db:
     image: postgres:15-alpine
     container_name: erp_postgres_db
@@ -15,7 +14,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  # The FastAPI Backend Service
   backend:
     build: 
       context: ../backend
@@ -25,11 +23,20 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # This forces the backend to use the local DB container
       - DATABASE_URL=postgresql://admin:password123@db:5432/inventory_db
     depends_on:
       - db
 
-# Use named volumes for PostgreSQL persistence (Mandatory requirement)
+  # ✅ ADD THIS FRONTEND SERVICE
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: erp_react_frontend
+    ports:
+      - "5173:80"  # Maps Nginx port 80 to your local 5173
+    depends_on:
+      - backend
+
 volumes:
   pgdata:
