@@ -1,3 +1,4 @@
+// src/components/Products/Products.jsx
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api';
 import { toast } from 'react-toastify';
@@ -6,10 +7,12 @@ import './Products.css';
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState({ name: '', sku: '', price: '', quantity: '' });
-  const [editingId, setEditingId] = useState(null); // ✅ Tracks if we are editing
+  const [editingId, setEditingId] = useState(null);
 
   const fetchProducts = () => {
-    api.get('/products/').then(res => setProducts(res.data)).catch(() => toast.error('Failed to load products.'));
+    api.get('/products/')
+      .then(res => setProducts(res.data))
+      .catch(() => toast.error('Failed to load products.'));
   };
 
   useEffect(() => { fetchProducts(); }, []);
@@ -72,18 +75,39 @@ export default function Products() {
         <h3>Inventory List</h3>
         <div className="table-wrapper">
           <table>
-            <thead><tr><th>ID</th><th>Name</th><th>SKU</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Action</th>
+              </tr>
+            </thead>
             <tbody>
-              {products.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.id}</td><td>{product.name}</td><td><code>{product.sku}</code></td><td>${product.price.toFixed(2)}</td>
-                  <td>{product.quantity}</td>
-                  <td>
-                    <button onClick={() => handleEdit(product)} className="btn-primary" style={{marginRight: '10px', backgroundColor: '#3b82f6'}}>Edit</button>
-                    <button onClick={() => handleDelete(product.id)} className="btn-danger">Delete</button>
+              {/* ✅ Added Empty State Handling */}
+              {products.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="empty-state" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
+                    No products currently in inventory. Add a new product to get started.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td><code>{product.sku}</code></td>
+                    <td>${product.price.toFixed(2)}</td>
+                    <td>{product.quantity}</td>
+                    <td>
+                      <button onClick={() => handleEdit(product)} className="btn-primary" style={{marginRight: '10px', backgroundColor: '#3b82f6'}}>Edit</button>
+                      <button onClick={() => handleDelete(product.id)} className="btn-danger">Delete</button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

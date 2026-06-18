@@ -6,7 +6,7 @@ import './Navbar.css';
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <h2 className="navbar-brand">Enterprise ERP System</h2>
+      <h2 className="navbar-brand">Order Management System</h2>
       
       <div className="navbar-links">
         {/* The 'end' prop ensures Dashboard is only active on exactly '/' */}
