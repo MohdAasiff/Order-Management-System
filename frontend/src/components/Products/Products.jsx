@@ -9,12 +9,19 @@ export default function Products() {
   const [form, setForm] = useState({ name: '', sku: '', price: '', quantity: '' });
   const [editingId, setEditingId] = useState(null);
 
-  const fetchProducts = () => {
+const fetchProducts = () => {
     api.get('/products/')
       .then(res => setProducts(res.data))
-      .catch(() => toast.error('Failed to load products.'));
+      .catch((err) => {
+        // ✅ FAANG Standard: Tell the developer exactly WHY it failed
+        if (err.message === "Network Error") {
+          toast.error('Network Error: Backend is offline or sleeping.');
+        } else {
+          toast.error(err.response?.data?.detail || 'Failed to load products. Check server logs.');
+        }
+        console.error("Product Fetch Error:", err);
+      });
   };
-
   useEffect(() => { fetchProducts(); }, []);
 
   const handleEdit = (product) => {
