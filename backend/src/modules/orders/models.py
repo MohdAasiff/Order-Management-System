@@ -9,4 +9,4 @@ class Order(Base):
     product_id = Column(Integer, ForeignKey("products.id"))
     quantity = Column(Integer)
     total_amount = Column(Float)
-    status = Column(String(50), default="PENDING") # ✅ Added length 50
+    
